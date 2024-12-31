@@ -1,5 +1,5 @@
 defmodule ShowitWeb.AuthHTML do
   use ShowitWeb, :html
 
-  embed_templates "*"
+  embed_templates "templates/*"
 end
