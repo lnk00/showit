@@ -20,6 +20,23 @@ if System.get_env("PHX_SERVER") do
   config :showit, ShowitWeb.Endpoint, server: true
 end
 
+if config_env() == :dev do
+  database_url =
+    System.get_env("DATABASE_URL") ||
+      raise """
+      environment variable DATABASE_URL is missing.
+      For example: ecto://USER:PASS@HOST/DATABASE
+      """
+
+  config :showit, Showit.Repo,
+    url: database_url,
+    ssl: false,
+    socket_options: [:inet6],
+    stacktrace: true,
+    show_sensitive_data_on_connection_error: true,
+    pool_size: 10
+end
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
