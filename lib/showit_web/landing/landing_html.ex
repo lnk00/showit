@@ -1,5 +1,5 @@
 defmodule ShowitWeb.LandingHTML do
   use ShowitWeb, :html
 
-  embed_templates "../templates/landing/*"
+  embed_templates "*"
 end
