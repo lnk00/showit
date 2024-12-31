@@ -35,3 +35,4 @@ showit-*.tar
 npm-debug.log
 /assets/node_modules/
 
+showit_vpn.conf
