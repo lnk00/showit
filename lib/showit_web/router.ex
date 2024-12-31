@@ -17,7 +17,20 @@ defmodule ShowitWeb.Router do
   scope "/", ShowitWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/", LandingController, :index
+  end
+
+  scope "/auth", ShowitWeb do
+    pipe_through :browser
+
+    get "/register", AuthController, :register
+    get "/login", AuthController, :login
+  end
+
+  scope "/dashboard", ShowitWeb do
+    pipe_through :browser
+
+    get "/", DashboardController, :index
   end
 
   # Other scopes may use custom stacks.
