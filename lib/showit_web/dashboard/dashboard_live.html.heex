@@ -1,0 +1,13 @@
+<h1>Dashboard</h1>
+
+<form id="upload-form" phx-submit="save" phx-change="validate">
+  <.live_file_input upload={@uploads.files} />
+  <button type="submit">Upload</button>
+</form>
+
+<div class="mt-8 flex items-center justify-center gap-2">
+  <div :for={entry <- @uploads.files.entries}>
+    <.live_img_preview entry={entry} class="w-24 h-24 object-cover" />
+    <progress value={entry.progress} max="100">{entry.progress}%</progress>
+  </div>
+</div>

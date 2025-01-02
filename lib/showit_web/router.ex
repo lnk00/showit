@@ -30,7 +30,7 @@ defmodule ShowitWeb.Router do
   scope "/dashboard", ShowitWeb do
     pipe_through :browser
 
-    get "/", DashboardController, :index
+    live "/", DashboardLive
   end
 
   # Other scopes may use custom stacks.
