@@ -1,4 +1,5 @@
 defmodule ShowitWeb.DashboardLive do
+  alias Showit.Media
   use ShowitWeb, :live_view
 
   def mount(_params, _session, socket) do
@@ -14,12 +15,9 @@ defmodule ShowitWeb.DashboardLive do
 
   def handle_event("save", _params, socket) do
     uploaded_files =
-      consume_uploaded_entries(socket, :files, fn p, entry ->
-        file_name = entry.client_name
-        file = {p, entry}
-        dbg(file)
-        dbg(Path.basename(p.path))
-        {:ok, file_name}
+      consume_uploaded_entries(socket, :files, fn %{path: path}, entry ->
+        path |> Media.process_and_upload()
+        {:ok, entry.client_name}
       end)
 
     {:noreply,
