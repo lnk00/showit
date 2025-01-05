@@ -14,12 +14,14 @@ defmodule ShowitWeb.DashboardLive do
     {:noreply, socket}
   end
 
-  def handle_event("save", _params, socket) do
+  def handle_event("save", %{"desc" => desc}, socket) do
     uploaded_files =
       consume_uploaded_entries(socket, :files, fn %{path: path}, entry ->
         path |> Media.process_and_upload()
         {:ok, entry.client_name}
       end)
+
+    dbg(desc)
 
     {:noreply,
      socket

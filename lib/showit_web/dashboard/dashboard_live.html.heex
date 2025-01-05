@@ -1,17 +1,32 @@
 <div class="mx-auto w-[800px]">
   <form id="upload-form" phx-submit="save" phx-change="validate">
-    <div
-      phx-drop-target={@uploads.files.ref}
-      phx-click={JS.dispatch("click", to: "##{@uploads.files.ref}")}
-      class="flex items-center justify-center w-full h-96 rounded-xl border-dashed border-2 bg-gray-50/30 hover:bg-gray-50 cursor-pointer"
-    >
-      <div class="flex flex-col items-center justify-center gap-4">
-        <div class="rounded-full bg-gray-100 h-16 w-16 flex items-center justify-center">
-          <.icon name="hero-arrow-up-tray-solid" class="h-5 w-5" />
+    <div class="w-full flex items-center justify-center gap-4">
+      <div class="w-96 h-96 bg-gray-50 rounded-xl flex flex-col items-center gap-2 p-2">
+        <div
+          :for={entry <- @uploads.files.entries}
+          class="w-full h-12 bg-white rounded flex items-center p-2 border gap-2"
+        >
+          <.live_img_preview entry={entry} class="w-8 h-8 rounded object-cover" />
+          <span class="text-sm opacity-70">
+            oney-ios-app.jpg
+          </span>
+          <.icon name="hero-trash" class="h-4 w-4 ml-auto opacity-30" />
         </div>
-        <label class="">
-          <.live_file_input upload={@uploads.files} class="hidden" /> Drop your project files here
-        </label>
+      </div>
+      <div
+        phx-drop-target={@uploads.files.ref}
+        phx-click={JS.dispatch("click", to: "##{@uploads.files.ref}")}
+        class="flex items-center justify-center w-full h-96 rounded-xl border-dashed border-2 bg-gray-50/30 hover:bg-gray-50 cursor-pointer"
+      >
+        <div class="flex flex-col items-center justify-center gap-4">
+          <div class="rounded-full bg-gray-100 h-16 w-16 flex items-center justify-center">
+            <.icon name="hero-arrow-up-tray-solid" class="h-5 w-5" />
+          </div>
+          <label class="">
+            <.live_file_input upload={@uploads.files} class="hidden" />
+            Drop your project files here
+          </label>
+        </div>
       </div>
     </div>
     <.input
@@ -23,10 +38,5 @@
     <.button type="submit" class="w-full mt-4">showit</.button>
   </form>
 
-  <div class="mt-8 flex items-center justify-center gap-2">
-    <div :for={entry <- @uploads.files.entries}>
-      <.live_img_preview entry={entry} class="w-24 h-24 object-cover" />
-      <progress value={entry.progress} max="100">{entry.progress}%</progress>
-    </div>
-  </div>
+  <div class="mt-8 flex items-center justify-center gap-2"></div>
 </div>
