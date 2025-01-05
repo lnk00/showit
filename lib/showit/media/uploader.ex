@@ -12,6 +12,15 @@ defmodule Showit.Media.Uploader do
 
     res = HTTPoison.post(url, {:multipart, form})
 
-    dbg(res)
+    case res do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        case Jason.decode(body) do
+          {:ok, %{"file" => file_id}} -> file_id
+          _ -> {:error, "Failed to get file ID from response"}
+        end
+
+      {:error, reason} ->
+        {:error, "Upload failed: #{inspect(reason)}"}
+    end
   end
 end
