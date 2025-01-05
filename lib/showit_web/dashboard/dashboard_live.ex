@@ -6,6 +6,7 @@ defmodule ShowitWeb.DashboardLive do
     {:ok,
      socket
      |> assign(:uploaded_files, [])
+     |> assign(:desc, "")
      |> allow_upload(:files, accept: ~w(.jpg .jpeg), max_entries: 3)}
   end
 

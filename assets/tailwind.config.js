@@ -16,7 +16,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Josefin Sans"', ...defaultTheme.fontFamily.sans],
+        // sans: ['"Josefin Sans"', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         brand: "#FD4F00",

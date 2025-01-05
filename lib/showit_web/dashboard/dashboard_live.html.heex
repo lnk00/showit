@@ -1,13 +1,32 @@
-<h1>Dashboard</h1>
+<div class="mx-auto w-[800px]">
+  <form id="upload-form" phx-submit="save" phx-change="validate">
+    <div
+      phx-drop-target={@uploads.files.ref}
+      phx-click={JS.dispatch("click", to: "##{@uploads.files.ref}")}
+      class="flex items-center justify-center w-full h-96 rounded-xl border-dashed border-2 bg-gray-50/30 hover:bg-gray-50 cursor-pointer"
+    >
+      <div class="flex flex-col items-center justify-center gap-4">
+        <div class="rounded-full bg-gray-100 h-16 w-16 flex items-center justify-center">
+          <.icon name="hero-arrow-up-tray-solid" class="h-5 w-5" />
+        </div>
+        <label class="">
+          <.live_file_input upload={@uploads.files} class="hidden" /> Drop your project files here
+        </label>
+      </div>
+    </div>
+    <.input
+      name="desc"
+      type="textarea"
+      value={@desc}
+      placeholder="Describe your project in few lines"
+    />
+    <.button type="submit" class="w-full mt-4">showit</.button>
+  </form>
 
-<form id="upload-form" phx-submit="save" phx-change="validate">
-  <.live_file_input upload={@uploads.files} />
-  <button type="submit">Upload</button>
-</form>
-
-<div class="mt-8 flex items-center justify-center gap-2">
-  <div :for={entry <- @uploads.files.entries}>
-    <.live_img_preview entry={entry} class="w-24 h-24 object-cover" />
-    <progress value={entry.progress} max="100">{entry.progress}%</progress>
+  <div class="mt-8 flex items-center justify-center gap-2">
+    <div :for={entry <- @uploads.files.entries}>
+      <.live_img_preview entry={entry} class="w-24 h-24 object-cover" />
+      <progress value={entry.progress} max="100">{entry.progress}%</progress>
+    </div>
   </div>
 </div>
