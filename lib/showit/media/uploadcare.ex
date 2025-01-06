@@ -1,16 +1,15 @@
-defmodule Showit.Media.Uploader do
-  @uploadcare_public_key "a0aefe93da84ada5c40e"
+defmodule Showit.Media.Uploadcare do
+  @base_url "https://upload.uploadcare.com"
+  @public_key "a0aefe93da84ada5c40e"
 
   def upload_image(image_binary, image_name) do
-    url = "https://upload.uploadcare.com/base/"
-
     form = [
-      {"UPLOADCARE_PUB_KEY", @uploadcare_public_key},
+      {"UPLOADCARE_PUB_KEY", @public_key},
       {image_name, image_binary, {"form-data", [{"name", "file"}, {"filename", image_name}]},
        [{"Content-Type", "image/jpeg"}]}
     ]
 
-    res = HTTPoison.post(url, {:multipart, form})
+    res = HTTPoison.post(@base_url <> "/base/", {:multipart, form})
 
     case res do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -22,5 +21,17 @@ defmodule Showit.Media.Uploader do
       {:error, reason} ->
         {:error, "Upload failed: #{inspect(reason)}"}
     end
+  end
+
+  def create_group(file_ids) do
+    form = [
+      {"pub_key", @public_key}
+      | file_ids
+        |> Enum.with_index()
+        |> Enum.map(&{"files[#{elem(&1, 1)}]", elem(&1, 0)})
+    ]
+
+    res = HTTPoison.post(@base_url <> "/group/", {:form, form})
+    dbg(res)
   end
 end

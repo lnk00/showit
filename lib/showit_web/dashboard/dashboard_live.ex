@@ -23,7 +23,7 @@ defmodule ShowitWeb.DashboardLive do
       end)
 
     dbg(desc)
-    dbg(uploaded_files)
+    Media.create_image_group(uploaded_files)
 
     {:noreply,
      socket
