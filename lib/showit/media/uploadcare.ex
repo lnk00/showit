@@ -23,8 +23,10 @@ defmodule Showit.Media.Uploadcare do
         |> Enum.map(&{"files[#{elem(&1, 1)}]", elem(&1, 0)})
     ]
 
-    res = HTTPoison.post(@base_url <> "/group/", {:form, form})
-    dbg(res)
+    case HTTPoison.post(@base_url <> "/group/", {:form, form}) |> handle_response do
+      {:ok, %{"id" => group_id}} -> {:ok, group_id}
+      {:error, reason} -> {:error, reason}
+    end
   end
 
   def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do

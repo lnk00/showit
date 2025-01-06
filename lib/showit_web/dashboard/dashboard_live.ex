@@ -16,7 +16,9 @@ defmodule ShowitWeb.DashboardLive do
 
   def handle_event("save", %{"desc" => _desc}, socket) do
     uploaded_files = consume_uploaded_entries(socket, :files, &Media.process_and_upload/2)
-    Media.create_image_group(uploaded_files)
+    group = Media.create_image_group(uploaded_files)
+
+    dbg(group)
 
     {:noreply,
      socket
