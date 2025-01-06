@@ -2,7 +2,7 @@ defmodule Showit.Media do
   alias Showit.Media.Uploadcare
 
   def process_and_upload(%{path: path}, entry) do
-    {:ok, path |> File.read!() |> Uploadcare.upload_image(entry.client_name)}
+    path |> File.read!() |> Uploadcare.upload_image(entry.client_name)
   end
 
   def create_image_group(file_ids) do

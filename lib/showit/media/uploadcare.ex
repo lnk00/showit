@@ -9,17 +9,9 @@ defmodule Showit.Media.Uploadcare do
        [{"Content-Type", "image/jpeg"}]}
     ]
 
-    res = HTTPoison.post(@base_url <> "/base/", {:multipart, form})
-
-    case res do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        case Jason.decode(body) do
-          {:ok, %{"file" => file_id}} -> file_id
-          _ -> {:error, "Failed to get file ID from response"}
-        end
-
-      {:error, reason} ->
-        {:error, "Upload failed: #{inspect(reason)}"}
+    case HTTPoison.post(@base_url <> "/base/", {:multipart, form}) |> handle_response do
+      {:ok, %{"file" => file_id}} -> {:ok, file_id}
+      {:error, reason} -> {:error, reason}
     end
   end
 
@@ -33,5 +25,13 @@ defmodule Showit.Media.Uploadcare do
 
     res = HTTPoison.post(@base_url <> "/group/", {:form, form})
     dbg(res)
+  end
+
+  def handle_response({:ok, %HTTPoison.Response{status_code: 200, body: body}}) do
+    {:ok, Jason.decode!(body)}
+  end
+
+  def handle_response({:error, reason}) do
+    {:error, reason}
   end
 end
