@@ -10,5 +10,5 @@ defmodule ShowitWeb.Layouts do
   """
   use ShowitWeb, :html
 
-  embed_templates "layouts/*"
+  embed_templates "*"
 end
