@@ -16,7 +16,14 @@ defmodule ShowitWeb.DashboardLive do
               <span class="text-sm opacity-70 truncate">
                 {entry.client_name}
               </span>
-              <.icon name="hero-trash" class="h-4 w-4 ml-auto opacity-30 shrink-0" />
+              <button
+                type="button"
+                phx-click="cancel-upload"
+                phx-value-ref={entry.ref}
+                class="ml-auto"
+              >
+                <.icon name="hero-trash" class="h-4 w-4 opacity-30 shrink-0 hover:opacity-100" />
+              </button>
             </div>
           </div>
           <div
@@ -59,6 +66,10 @@ defmodule ShowitWeb.DashboardLive do
 
   def handle_event("validate", _params, socket) do
     {:noreply, socket}
+  end
+
+  def handle_event("cancel-upload", %{"ref" => ref}, socket) do
+    {:noreply, cancel_upload(socket, :files, ref)}
   end
 
   def handle_event("save", %{"desc" => _desc}, socket) do
