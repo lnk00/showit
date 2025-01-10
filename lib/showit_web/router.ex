@@ -33,7 +33,6 @@ defmodule ShowitWeb.Router do
 
     live_session :redirect_if_user_is_authenticated,
       on_mount: [{ShowitWeb.UserAuth, :redirect_if_user_is_authenticated}] do
-      live "/", LandingLive
       live "/users/register", UserRegistrationLive, :new
       live "/users/log_in", UserLoginLive, :new
       live "/users/reset_password", UserForgotPasswordLive, :new
@@ -59,6 +58,7 @@ defmodule ShowitWeb.Router do
     pipe_through [:browser]
 
     delete "/users/log_out", UserSessionController, :delete
+    live "/", LandingLive
 
     live_session :current_user,
       on_mount: [{ShowitWeb.UserAuth, :mount_current_user}] do

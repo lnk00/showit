@@ -58,6 +58,15 @@ defmodule ShowitWeb do
     end
   end
 
+  def live_view_no_layout do
+    quote do
+      use Phoenix.LiveView,
+        layout: false
+
+      unquote(html_helpers())
+    end
+  end
+
   def live_component do
     quote do
       use Phoenix.LiveComponent

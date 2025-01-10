@@ -1,5 +1,5 @@
 defmodule ShowitWeb.LandingLive do
-  use ShowitWeb, :live_view
+  use ShowitWeb, :live_view_no_layout
 
   def render(assigns) do
     ~H"""
