@@ -50,8 +50,6 @@ defmodule ShowitWeb.DashboardLive do
         />
         <.button type="submit" class="w-full mt-4">showit</.button>
       </form>
-
-      <div class="mt-8 flex items-center justify-center gap-2"></div>
     </div>
     """
   end
