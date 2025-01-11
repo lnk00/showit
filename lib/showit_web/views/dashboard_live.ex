@@ -1,4 +1,5 @@
 defmodule ShowitWeb.DashboardLive do
+  alias Showit.Project
   alias Showit.Media
   use ShowitWeb, :live_view
 
@@ -70,11 +71,19 @@ defmodule ShowitWeb.DashboardLive do
     {:noreply, cancel_upload(socket, :files, ref)}
   end
 
-  def handle_event("save", %{"desc" => _desc}, socket) do
+  def handle_event("save", %{"desc" => desc}, socket) do
     uploaded_files = consume_uploaded_entries(socket, :files, &Media.process_and_upload/2)
-    group = Media.create_image_group(uploaded_files)
+    {:ok, group_id} = Media.create_image_group(uploaded_files)
 
-    dbg(group)
+    res =
+      Project.insert_project(%{
+        bucket_id: group_id,
+        desc: desc,
+        name: "project name 1",
+        user_id: socket.assigns.current_user.id
+      })
+
+    dbg(res)
 
     {:noreply,
      socket

@@ -1,4 +1,5 @@
 defmodule Showit.Project do
+  alias Showit.Repo
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -14,7 +15,11 @@ defmodule Showit.Project do
   @doc false
   def changeset(project, attrs) do
     project
-    |> cast(attrs, [:name, :bucket_id, :desc])
-    |> validate_required([:name, :bucket_id, :desc])
+    |> cast(attrs, [:name, :bucket_id, :desc, :user_id])
+    |> validate_required([:name, :bucket_id, :desc, :user_id])
+  end
+
+  def insert_project(attrs) do
+    %Showit.Project{} |> changeset(attrs) |> Repo.insert()
   end
 end
