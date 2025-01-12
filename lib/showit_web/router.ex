@@ -50,7 +50,8 @@ defmodule ShowitWeb.Router do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
 
-      live "/dashboard", DashboardLive
+      live "/dashboard", Dashboard.HomeLive
+      live "/dashboard/create", Dashboard.CreateProjectLive
     end
   end
 

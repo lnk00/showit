@@ -1,4 +1,4 @@
-defmodule ShowitWeb.DashboardLive do
+defmodule ShowitWeb.Dashboard.CreateProjectLive do
   alias Showit.Project
   alias Showit.Media
   use ShowitWeb, :live_view
@@ -7,7 +7,9 @@ defmodule ShowitWeb.DashboardLive do
     ~H"""
     <div class="mx-auto w-[800px]">
       <form id="upload-form" phx-submit="save" phx-change="validate">
-        <div class="w-full flex items-center justify-center gap-4">
+        <div class="text-4xl font-bold mb-4">Create project</div>
+        <.input name="name" type="text" value={@name} placeholder="Enter your project name" />
+        <div class="w-full flex items-center justify-center gap-4 mt-4">
           <div class="w-96 h-96 bg-gray-50 rounded-xl flex flex-col items-center gap-2 p-2">
             <div
               :for={entry <- @uploads.files.entries}
@@ -60,6 +62,7 @@ defmodule ShowitWeb.DashboardLive do
      socket
      |> assign(:uploaded_files, [])
      |> assign(:desc, "")
+     |> assign(:name, "")
      |> allow_upload(:files, accept: ~w(.jpg .jpeg), max_entries: 3)}
   end
 
@@ -71,7 +74,7 @@ defmodule ShowitWeb.DashboardLive do
     {:noreply, cancel_upload(socket, :files, ref)}
   end
 
-  def handle_event("save", %{"desc" => desc}, socket) do
+  def handle_event("save", %{"desc" => desc, "name" => name}, socket) do
     uploaded_files = consume_uploaded_entries(socket, :files, &Media.process_and_upload/2)
     {:ok, group_id} = Media.create_image_group(uploaded_files)
 
@@ -79,7 +82,7 @@ defmodule ShowitWeb.DashboardLive do
       Project.insert_project(%{
         bucket_id: group_id,
         desc: desc,
-        name: "project name 1",
+        name: name,
         user_id: socket.assigns.current_user.id
       })
 

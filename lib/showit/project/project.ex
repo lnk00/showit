@@ -22,4 +22,8 @@ defmodule Showit.Project do
   def insert_project(attrs) do
     %Showit.Project{} |> changeset(attrs) |> Repo.insert()
   end
+
+  def by_user(user) do
+    Showit.Project |> Repo.get_by(user_id: user.id)
+  end
 end
